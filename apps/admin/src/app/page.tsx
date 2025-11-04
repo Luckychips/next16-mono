@@ -1,7 +1,11 @@
 import Image from "next/image";
+import { execute } from 'core-util';
 import styles from "./page.module.css";
 
 export default function Home() {
+  execute();
+  console.log('call');
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>

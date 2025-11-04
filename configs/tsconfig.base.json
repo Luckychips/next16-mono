@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
-      "ui": ["packages/ui/src"],
-      "utils": ["packages/utils/src"]
+      "core-ui/*": ["packages/ui/src/*"],
+      "core-util/*": ["packages/util/src/*"]
     },
     "strict": true,
     "moduleResolution": "node",

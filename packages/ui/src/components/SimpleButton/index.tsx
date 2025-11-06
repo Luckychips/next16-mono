@@ -2,16 +2,25 @@
 
 import { useEffect } from 'react';
 import { execute } from 'core-util';
+import { ButtonProps } from '../base';
 import * as S from './styles';
 
-const SimpleButton = () => {
+interface SimpleButtonProps extends ButtonProps {
+    disabled?: boolean;
+}
+
+const SimpleButton = ({
+    label,
+    onClick,
+    disabled = false,
+}: SimpleButtonProps) => {
     useEffect(() => {
         execute();
     }, []);
 
     return (
-        <S.Container>
-            <div>simple button</div>
+        <S.Container disabled={disabled} onClick={onClick}>
+            <div>{label}</div>
         </S.Container>
     );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import styles from "./page.module.css";
 
@@ -7,7 +9,9 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <SimpleButton />
+        <SimpleButton label="click" onClick={() => {
+          console.log('click!!');
+        }} />
         <Image
           className={styles.logo}
           src="/next.svg"

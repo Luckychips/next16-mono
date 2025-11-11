@@ -2,6 +2,10 @@
   font-family: 'Nanum Gothic', sans-serif;
 }
 
+html {
+  overscroll-behavior-y: none;
+}
+
 body {
   margin: 0;
 }
@@ -12,6 +16,10 @@ body {
 }
 
 main {
+  @media (max-width: 375px) {
+    width: 100%;
+  }
+
   flex: 1;
 }
 

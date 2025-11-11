@@ -1,16 +1,34 @@
-import { Heatmap, WordView } from '../../components';
+import { Drawing, GeoMercator, Heatmap, WordView, Footer } from '../../components';
+import * as S from './styles';
 
 const Dashboard = () => {
     return (
         <>
-            <section>
-                <div>
-                    <Heatmap />
-                </div>
-                <div>
-                    <WordView />
-                </div>
-            </section>
+            <S.Container>
+                <S.Title>Welcome, Todd</S.Title>
+                <S.Content>
+                    <S.FlexInlineContainer>
+                        <S.Padding>
+                            <Heatmap />
+                        </S.Padding>
+                        <S.Padding>
+                            <WordView />
+                        </S.Padding>
+                        <S.Padding>
+                            <Heatmap />
+                        </S.Padding>
+                    </S.FlexInlineContainer>
+                    <S.FlexInlineContainer>
+                        <S.Padding>
+                            <GeoMercator />
+                        </S.Padding>
+                        <S.Padding>
+                            <Drawing />
+                        </S.Padding>
+                    </S.FlexInlineContainer>
+                </S.Content>
+            </S.Container>
+            <Footer />
         </>
     );
 };

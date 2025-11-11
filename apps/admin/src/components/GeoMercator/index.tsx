@@ -1,0 +1,102 @@
+import { useEffect, useState } from 'react';
+import { scaleQuantize } from '@visx/scale';
+import { Mercator, Graticule } from '@visx/geo';
+import * as topojson from 'topojson-client';
+import topology from './topology.json';
+import * as S from './styles';
+
+export const background = '#ffffff';
+
+export type GeoMercatorProps = {
+    events?: boolean;
+};
+
+interface FeatureShape {
+    type: 'Feature';
+    id: string;
+    geometry: { coordinates: [number, number][][]; type: 'Polygon' };
+    properties: { name: string };
+}
+
+// @ts-expect-error
+const world = topojson.feature(topology, topology.objects.units) as unknown as {
+    type: 'FeatureCollection';
+    features: FeatureShape[];
+};
+
+const color = scaleQuantize({
+    domain: [
+        Math.min(...world.features.map((f) => f.geometry.coordinates.length)),
+        Math.max(...world.features.map((f) => f.geometry.coordinates.length)),
+    ],
+    range: ['#ffb01d', '#ffa020', '#ff9221', '#ff8424', '#ff7425', '#fc5e2f', '#f94b3a', '#f63a48'],
+});
+
+const GeoMercator = ({ events = false }: GeoMercatorProps) => {
+    const [width, setWidth] = useState(window.innerWidth - 20);
+    const [height, setHeight] = useState(400);
+    const [centerX, setCenterX] = useState(0);
+    const [centerY, setCenterY] = useState(0);
+    const scale = (width / 630) * 100;
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 375) {
+                setWidth(520);
+                setHeight(400);
+            } else {
+                setWidth(window.innerWidth - 20);
+                setHeight(250);
+            }
+        })
+    }, []);
+
+    useEffect(() => {
+        setCenterX(width / 2);
+    }, [width]);
+
+    useEffect(() => {
+        setCenterY(height / 2);
+    }, [height]);
+
+    return (
+        <S.Container style={{ width: `${width}px`, height: `${height}px` }}>
+            <svg width={width} height={height}>
+                <rect x={0} y={0} width={width} height={height} fill={background} rx={14} />
+                <Mercator<FeatureShape>
+                    data={world.features}
+                    scale={scale}
+                    translate={[centerX, centerY + 50]}
+                >
+                    {(mercator: {
+                        features: {
+                            feature: FeatureShape;
+                            path: string | null;
+                            centroid: [number, number];
+                        }[];
+                        path: (d: any) => string | null;
+                        projection: any;
+                    }) => (
+                        <g>
+                            <Graticule graticule={(g) => mercator.path(g) || ''} stroke="rgba(33,33,33,0.05)" />
+                            {mercator.features.map(({ feature, path }, i) => (
+                                <path
+                                    key={`map-feature-${i}`}
+                                    d={path || ''}
+                                    fill={color(feature.geometry.coordinates.length)}
+                                    stroke={background}
+                                    strokeWidth={0.5}
+                                    onClick={() => {
+                                        if (events) alert(`Clicked: ${feature.properties.name} (${feature.id})`);
+                                    }}
+                                />
+                            ))}
+                        </g>
+                    )}
+                </Mercator>
+            </svg>
+        </S.Container>
+    );
+};
+
+export default GeoMercator;

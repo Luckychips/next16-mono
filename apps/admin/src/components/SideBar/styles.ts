@@ -1,7 +1,11 @@
-import { styled } from '@stitches/react';
+import { styled } from '../../../stitches.config.ts';
 
 const Container = styled('aside', {
-
+    width: '200px',
+    transition: 'width 0.2s ease',
+    '@sm': {
+        width: 0,
+    }
 });
 
 const Title = styled('div', {
@@ -13,6 +17,7 @@ const Title = styled('div', {
 
 const MenuContainer = styled('ul', {
     listStyle: 'none',
+    minWidth: '200px',
     paddingTop: '15px',
     paddingLeft: '0 !important',
     margin: '0 !important',

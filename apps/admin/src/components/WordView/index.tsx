@@ -1,6 +1,7 @@
 import { Wordcloud } from '@visx/wordcloud';
 import { Group } from '@visx/group';
 import * as S from './styles';
+import {useEffect, useState} from "react";
 
 type Word = {
     text: string;
@@ -17,15 +18,25 @@ const words: Word[] = [
     { text: 'Frontend', value: 20 },
 ];
 
-const width = 250;
-const height = 200;
-
 const WordView = () => {
+    const [width, setWidth] = useState(window.innerWidth - 20);
+    const [height, ] = useState(200);
+
     const getRotationDegree = () => {
         const rand = Math.random();
         const degree = rand > 0.5 ? 60 : -60;
         return rand * degree;
     }
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 375) {
+                setWidth(520);
+            } else {
+                setWidth(window.innerWidth - 20);
+            }
+        })
+    }, []);
 
     return (
         <S.Container style={{ width: `${width}px`, height: `${height}px` }}>

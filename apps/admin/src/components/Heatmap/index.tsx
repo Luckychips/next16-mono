@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { HeatmapRect } from '@visx/heatmap';
 import { Group } from '@visx/group';
+import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
 
 type HeatmapData = Array<{
@@ -21,8 +22,7 @@ const data: HeatmapData = generateRandomHeatmap(20, 20);
 const margin = { top: 20, left: 20, bottom: 20, right: 20 };
 
 const Heatmap = () => {
-    const [width, setWidth] = useState(window.innerWidth - 20);
-    const [height, ] = useState(200);
+    const { width, height } = useResponsive(0, 200);
     const [xDomain, setXDomain] = useState<number[]>([]);
     const [yDomain, setYDomain] = useState<number[]>([]);
 
@@ -31,7 +31,7 @@ const Heatmap = () => {
     }, []);
 
     const xScale = useMemo(() => {
-        if (xDomain.length === 0) return null;
+        if (!width || xDomain.length === 0) return null;
         return scaleBand<number>()
             .domain(xDomain)
             .range([0, width - margin.left - margin.right])
@@ -39,7 +39,7 @@ const Heatmap = () => {
     }, [xDomain, width]);
 
     const yScale = useMemo(() => {
-        if (yDomain.length === 0) return null;
+        if (!height || yDomain.length === 0) return null;
         return scaleBand<number>()
             .domain(yDomain)
             .range([0, height - margin.top - margin.bottom])
@@ -51,13 +51,6 @@ const Heatmap = () => {
         const yList = Array.from({ length: 20 }, (_, i) => i);
         setXDomain(xList);
         setYDomain(yList);
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 375) {
-                setWidth(250);
-            } else {
-                setWidth(window.innerWidth - 20);
-            }
-        })
     }, []);
 
     if (!xScale || !yScale) return null;

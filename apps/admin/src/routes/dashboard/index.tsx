@@ -1,4 +1,11 @@
-import { Drawing, GeoMercator, Heatmap, WordView, Footer } from '../../components';
+import {
+    Drawing,
+    GeoMercator,
+    Heatmap,
+    WordView,
+    Footer,
+    StreamGraph,
+} from '../../components';
 import * as S from './styles';
 
 const Dashboard = () => {
@@ -13,6 +20,9 @@ const Dashboard = () => {
                         </S.Padding>
                         <S.Padding>
                             <WordView />
+                        </S.Padding>
+                        <S.Padding>
+                            <StreamGraph />
                         </S.Padding>
                         <S.Padding>
                             <Heatmap />

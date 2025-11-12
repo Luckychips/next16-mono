@@ -1,8 +1,9 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useState } from 'react';
 import { LinePath } from '@visx/shape';
 import { useDrag } from '@visx/drag';
 import { curveBasis } from '@visx/curve';
 import { LinearGradient } from '@visx/gradient';
+import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
 
 type Line = { x: number; y: number }[];
@@ -13,8 +14,7 @@ interface DrawingProps {
 }
 
 const Drawing = ({ data = [] }: DrawingProps) => {
-    const [width, setWidth] = useState(window.innerWidth - 20);
-    const [height, ] = useState(200);
+    const { width, height } = useResponsive(0, 200);
     const [lines, setLines] = useState<Lines>(data);
     const onDragStart = useCallback(
         (currDrag: any) => {
@@ -50,16 +50,6 @@ const Drawing = ({ data = [] }: DrawingProps) => {
         onDragMove,
         resetOnStart: true,
     });
-
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 375) {
-                setWidth(250);
-            } else {
-                setWidth(window.innerWidth - 20);
-            }
-        })
-    }, []);
 
     return (
         <S.Container style={{ width: `${width}px`, height: `${height}px` }}>

@@ -3,6 +3,7 @@ import { scaleQuantize } from '@visx/scale';
 import { Mercator, Graticule } from '@visx/geo';
 import * as topojson from 'topojson-client';
 import topology from './topology.json';
+import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
 
 export const background = '#ffffff';
@@ -33,36 +34,27 @@ const color = scaleQuantize({
 });
 
 const GeoMercator = ({ events = false }: GeoMercatorProps) => {
-    const [width, setWidth] = useState(window.innerWidth - 20);
-    const [height, setHeight] = useState(400);
+    const { width, height } = useResponsive(0, 400, 510);
     const [centerX, setCenterX] = useState(0);
     const [centerY, setCenterY] = useState(0);
-    const scale = (width / 630) * 100;
+    const scale = width ? ((width / 630) * 100) : 100;
 
     useEffect(() => {
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 375) {
-                setWidth(520);
-                setHeight(400);
-            } else {
-                setWidth(window.innerWidth - 20);
-                setHeight(250);
-            }
-        })
-    }, []);
-
-    useEffect(() => {
-        setCenterX(width / 2);
+        if (width) {
+            setCenterX(width / 2);
+        }
     }, [width]);
 
     useEffect(() => {
-        setCenterY(height / 2);
+        if (height) {
+            setCenterY(height / 2);
+        }
     }, [height]);
 
     return (
         <S.Container style={{ width: `${width}px`, height: `${height}px` }}>
             <svg width={width} height={height}>
-                <rect x={0} y={0} width={width} height={height} fill={background} rx={14} />
+                <rect x={0} y={0} width={width} height={height} fill={background} />
                 <Mercator<FeatureShape>
                     data={world.features}
                     scale={scale}

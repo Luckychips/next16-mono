@@ -5,7 +5,7 @@ import {
     WordView,
     Footer,
     StreamGraph,
-} from '../../components';
+} from '@/components';
 import * as S from './styles';
 
 const Dashboard = () => {

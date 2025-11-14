@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useResponsive } from '@/core/custom';
 import { scaleQuantize } from '@visx/scale';
 import { Mercator, Graticule } from '@visx/geo';
 import * as topojson from 'topojson-client';
-import topology from './topology.json';
-import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
+import topology from './topology.json';
 
 export const background = '#ffffff';
 
@@ -37,7 +37,16 @@ const GeoMercator = ({ events = false }: GeoMercatorProps) => {
     const { width, height } = useResponsive(0, 400, 510);
     const [centerX, setCenterX] = useState(0);
     const [centerY, setCenterY] = useState(0);
-    const scale = width ? ((width / 630) * 100) : 100;
+    const [zoom, setZoom] = useState(50);
+
+    useEffect(() => {
+        const geoMap = document.getElementById('geo-canvas');
+        if (geoMap) {
+            geoMap.addEventListener('dblclick', () => {
+                setZoom((z) => z + 10);
+            });
+        }
+    }, []);
 
     useEffect(() => {
         if (width) {
@@ -53,11 +62,12 @@ const GeoMercator = ({ events = false }: GeoMercatorProps) => {
 
     return (
         <S.Container style={{ width: `${width}px`, height: `${height}px` }}>
-            <svg width={width} height={height}>
+            <svg width={width} height={height} id="geo-canvas">
                 <rect x={0} y={0} width={width} height={height} fill={background} />
                 <Mercator<FeatureShape>
+                    key={zoom}
                     data={world.features}
-                    scale={scale}
+                    scale={zoom}
                     translate={[centerX, centerY + 50]}
                 >
                     {(mercator: {

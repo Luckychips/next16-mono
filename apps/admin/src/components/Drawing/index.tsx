@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
-import { LinePath } from '@visx/shape';
-import { useDrag } from '@visx/drag';
 import { curveBasis } from '@visx/curve';
+import { useDrag } from '@visx/drag';
+import { useResponsive } from '@/core/custom';
+import { LinePath } from '@visx/shape';
 import { LinearGradient } from '@visx/gradient';
-import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
 
 type Line = { x: number; y: number }[];

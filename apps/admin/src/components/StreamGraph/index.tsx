@@ -3,9 +3,8 @@ import { PatternCircles, PatternWaves } from '@visx/pattern';
 import { scaleLinear, scaleOrdinal } from '@visx/scale';
 import { transpose } from 'd3-array';
 import { animated, useSpring } from '@react-spring/web';
-import generateData from '../../routes/dashboard/generateData';
-import useForceUpdate from '../../core/custom/useForceUpdate';
-import useResponsive from '../../core/custom/useResponsive';
+import { useForceUpdate, useResponsive } from '@/core/custom';
+import generateData from '@/routes/dashboard/generateData';
 import * as S from './styles';
 
 // constants

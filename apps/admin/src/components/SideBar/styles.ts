@@ -1,4 +1,4 @@
-import { styled } from '../../../stitches.config.ts';
+import { styled } from 'stitches.config';
 
 const Container = styled('aside', {
     width: '200px',

@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useResponsive } from '@/core/custom';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { HeatmapRect } from '@visx/heatmap';
 import { Group } from '@visx/group';
-import useResponsive from '../../core/custom/useResponsive';
 import * as S from './styles';
 
 type HeatmapData = Array<{

@@ -1,7 +1,7 @@
 import { Wordcloud } from '@visx/wordcloud';
 import { Group } from '@visx/group';
+import { useResponsive } from '@/core/custom';
 import * as S from './styles';
-import useResponsive from '../../core/custom/useResponsive';
 
 type Word = {
     text: string;

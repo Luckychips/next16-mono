@@ -1,4 +1,4 @@
-import { styled } from '../../../stitches.config.ts';
+import { styled } from 'stitches.config';
 
 const Container = styled('section', {
     height: 'calc(100vh - 10vh - 20px)',
